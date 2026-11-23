@@ -1,16 +1,19 @@
-# Proof of Thanks: Stellar starter 💜
+# Event check-in on Stellar 🎟️
 
-Leave a public thank-you note on **Stellar Testnet**, signed with your wallet. No real money.
+An event check-in list on **Stellar Testnet**: each attendee checks in **once** with their name, signed with their wallet, and the page shows who came. No real money.
 
-Built for **The Commit Club** at BAF × Stellar: Proof of Gratitude. Use it as-is or as the base for your own idea.
+- Page: https://stevmolina.github.io/cc-test-checkin/
+- Contract: [`CBRDHN56…WZSR`](https://stellar.expert/explorer/testnet/contract/CBRDHN56EEA3ACWM4MV2QVVY5ERNIXWYOJY6DZLTBI67NYMHT4SVWZSR)
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/stevmolina/proof-of-thanks-starter)
+Built for **The Commit Club** at BAF × Stellar, from the [Proof of Thanks starter](https://github.com/stevmolina/proof-of-thanks-starter).
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/stevmolina/cc-test-checkin)
 
 ## What's inside
 
-- `contracts/gratitude`: a Soroban smart contract with `thank`, `count` and `get`.
-- `docs/`: a static page that connects [Freighter](https://www.freighter.app) and calls the contract. Published with GitHub Pages from `/docs`.
-- `scripts/`: `setup.sh` (tools + funded Testnet account), `deploy.sh` (test, build, deploy), `smoke-test.cjs` (end-to-end check).
+- `contracts/checkin`: a Soroban smart contract with `check_in` (once per wallet), `count`, `get` and `has_checked_in`.
+- `docs/`: a static page that connects [Freighter](https://www.freighter.app) and calls the contract (`docs/checkin-client.js`). Published with GitHub Pages from `/docs`.
+- `scripts/`: `setup.sh` (tools + funded Testnet account), `deploy.sh` (test, build, deploy), `smoke-test.cjs` (end-to-end check with a fresh Testnet wallet, including a rejected duplicate).
 
 ## Quick start
 

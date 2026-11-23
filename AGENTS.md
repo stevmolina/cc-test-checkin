@@ -1,6 +1,6 @@
-# Agent instructions: Proof of Thanks starter
+# Agent instructions: Event check-in
 
-A Stellar **Testnet** dApp: one Soroban contract (`contracts/gratitude`) and a static web page (`docs/`) that talks to it through the Freighter wallet. GitHub Pages serves `docs/` from the `main` branch.
+A Stellar **Testnet** dApp: one Soroban contract (`contracts/checkin`) and a static web page (`docs/`) that talks to it through the Freighter wallet. GitHub Pages serves `docs/` from the `main` branch.
 
 ## Hard rules
 
@@ -15,7 +15,7 @@ A Stellar **Testnet** dApp: one Soroban contract (`contracts/gratitude`) and a s
 |---|---|
 | One-time setup (tools + funded `me` identity) | `bash scripts/setup.sh` |
 | Contract tests | `cargo test` |
-| Test, build, deploy, update `docs/config.js` | `bash scripts/deploy.sh` |
+| Test, build, deploy, update `docs/config.js` | `bash scripts/deploy.sh checkin` |
 | End-to-end check of the web client on Testnet | `node scripts/smoke-test.cjs me` |
 | Preview the page locally | `npx --yes serve docs` |
 
@@ -23,9 +23,9 @@ Always build with `stellar contract build` (the deploy script does), never with 
 
 ## Changing the idea
 
-1. Edit `contracts/gratitude/src/lib.rs` (rename is fine; keep the crate under `contracts/`) and update `src/test.rs`.
+1. Edit `contracts/checkin/src/lib.rs` (rename is fine; keep the crate under `contracts/`) and update `src/test.rs`.
 2. Run `cargo test` until green.
-3. If you rename functions or arguments, update `docs/gratitude-client.js` and `docs/index.html` to match, and `scripts/smoke-test.cjs` if `thank`/`count`/`get` changed.
+3. If you rename functions or arguments, update `docs/checkin-client.js` and `docs/index.html` to match, and `scripts/smoke-test.cjs` if `check_in`/`count`/`get`/`has_checked_in` changed.
 4. `bash scripts/deploy.sh <crate-name>`, then the smoke test, then commit and push. GitHub Pages updates in about a minute.
 
 ## Where to learn more
