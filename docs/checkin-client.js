@@ -1,10 +1,10 @@
-// Tiny client for the Gratitude contract. Works in the browser (global
-// `GratitudeClient`, with the StellarSdk CDN build) and in Node (require).
+// Tiny client for the CheckIn contract. Works in the browser (global
+// `CheckInClient`, with the StellarSdk CDN build) and in Node (require).
 // `signXdr(xdr) -> Promise<signedXdr>` is provided by Freighter in the browser
 // or by a local Keypair in tests.
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory;
-  else root.GratitudeClient = factory;
+  else root.CheckInClient = factory;
 })(typeof self !== "undefined" ? self : this, function (StellarSdk, cfg) {
   const { rpc, Contract, TransactionBuilder, BASE_FEE, nativeToScVal, scValToNative, Address } = StellarSdk;
   const server = new rpc.Server(cfg.rpcUrl);
@@ -34,16 +34,19 @@
     const n = await count();
     const ids = [];
     for (let i = n; i >= 1 && ids.length < limit; i--) ids.push(i);
-    const notes = await Promise.all(ids.map((id) => read("get", [nativeToScVal(id, { type: "u32" })])));
-    return notes.map((n, i) => ({ id: ids[i], ...n, from: String(n.from) }));
+    const rows = await Promise.all(ids.map((id) => read("get", [nativeToScVal(id, { type: "u32" })])));
+    return rows.map((a, i) => ({ id: ids[i], ...a, who: String(a.who) }));
+  }
+
+  async function hasCheckedIn(who) {
+    return read("has_checked_in", [new Address(who).toScVal()]);
   }
 
   // Write: build -> simulate/prepare -> sign -> send -> wait.
-  async function thank(from, to, message, signXdr) {
-    const tx = await build(from, "thank", [
-      new Address(from).toScVal(),
-      nativeToScVal(to, { type: "string" }),
-      nativeToScVal(message, { type: "string" }),
+  async function checkIn(who, name, signXdr) {
+    const tx = await build(who, "check_in", [
+      new Address(who).toScVal(),
+      nativeToScVal(name, { type: "string" }),
     ]);
     const prepared = await server.prepareTransaction(tx);
     const signed = TransactionBuilder.fromXDR(await signXdr(prepared.toXDR()), cfg.networkPassphrase);
@@ -58,5 +61,5 @@
     return { hash: sent.hash, id: scValToNative(res.returnValue) };
   }
 
-  return { count, list, thank };
+  return { count, list, hasCheckedIn, checkIn };
 });
